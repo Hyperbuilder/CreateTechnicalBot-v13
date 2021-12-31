@@ -8,7 +8,7 @@ module.exports = {
     /**
      * 
      * @param {CommandInteraction} interaction
-     * @param {client} client
+     * @param {Client} client
      */
     execute(interaction, client) {
 

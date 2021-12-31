@@ -1,10 +1,10 @@
-const { Client, CommandInteraction, MessageEmbed } = require("discord.js");
+const { Client, CommandInteraction, MessageEmbed, ContextMenuInteraction } = require("discord.js");
 const { execute } = require("../Client/ready");
 
 module.exports = {
     name: "interactionCreate",
     async execute(interaction, client) {
-        if (interaction.isCommand()) {
+        if (interaction.isCommand() || interaction.isContextMenu()) {
             const command = client.commands.get(interaction.commandName)
             if (!command) return interaction.reply({
                 embeds: [
