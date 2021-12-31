@@ -14,6 +14,7 @@ module.exports = {
     async execute(interaction, client) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== "deny-application") return;
+        if (interaction.user.id !== "410953870643298314") return interaction.reply({ content: "Permissions missing", ephemeral: true })
 
         const { channel } = interaction;
 
