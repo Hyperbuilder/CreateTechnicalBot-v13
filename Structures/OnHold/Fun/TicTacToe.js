@@ -1,7 +1,4 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
-const { connection } = require("mongoose");
-require("../../Events/Client/ready");
-
+const { CommandInteraction, Client, MessageEmbed, MessageActionRow } = require("discord.js");
 module.exports = {
     name: "status",
     description: "Displays Bot status",
@@ -18,19 +15,4 @@ module.exports = {
         interaction.reply({ embeds: [Response] })
     }
 
-}
-
-function switchTo(val) {
-    var status = " ";
-    switch (val) {
-        case 0: status = "🔴 DISCONNECTED"
-            break;
-        case 1: status = "🟢 CONNECTED"
-            break;
-        case 2: status = "🟠 CONNECTING"
-            break;
-        case 3: status = "🛑 DISCONNECTING"
-            break;
-    }
-    return status
 }

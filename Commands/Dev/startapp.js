@@ -5,11 +5,12 @@ const ApplicationQuestions = require("../../Structures/Templates/applicationQues
 module.exports = {
     name: "startapp",
     description: "Start Applications",
+    permission: "ADMINISTRATOR",
     options: [
         {
             name: "channel",
             description: "Choose a channel to send the Start App message.",
-            type: "CHANNEL",
+            type: 7,
             required: true
         }
     ],

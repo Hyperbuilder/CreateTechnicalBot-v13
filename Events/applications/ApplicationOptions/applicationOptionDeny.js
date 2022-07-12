@@ -1,7 +1,8 @@
-const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageButton, Client } = require("discord.js");
+const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageSelectMenu, Client } = require("discord.js");
 const ApplicationCache = require("memory-cache")
 const submitDB = require("../../../Structures/Schemas/submit-schema");
 const applicationOptionAccept = require("./applicationOptionAccept");
+
 
 module.exports = {
     name: "interactionCreate",
@@ -14,12 +15,45 @@ module.exports = {
     async execute(interaction, client) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== "deny-application") return;
-        if (interaction.user.id !== "410953870643298314") return interaction.reply({ content: "Permissions missing", ephemeral: true })
+        if (!["410953870643298314", "432217612345278476"].includes(interaction.user.id)) return interaction.reply({ content: "Permissions missing", ephemeral: true })
 
         const { channel } = interaction;
 
+        const selectMenuRow = new MessageActionRow()
+            .addComponents([
+                new MessageSelectMenu()
+                    .setCustomId('deniedSelectMenu')
+                    .setPlaceholder('Nothing selected')
+                    .addOptions([
+                        {
+                            label: 'Intentional Application Spam',
+                            description: 'Reason: Intentionally spamming applications.',
+                            value: 'spam',
+                        },
+                        {
+                            label: 'Underage, ToS',
+                            description: 'Reason: User is Underage (Under 13), and therefor breaking Terms of Service.',
+                            value: 'underage',
+                        },
+                        {
+                            label: 'Lack of Experience',
+                            description: 'Reason: Showing inexperience about Create.',
+                            value: 'lack_experience',
+                        },
+                        {
+                            label: 'Inappropriate behaviour',
+                            description: 'Reason: Showing behaviour the communitiy wont tolerate',
+                            value: 'behaviour',
+                        },
+                    ]),
+            ]);
+
+        const userEmbedMessage = await (await interaction.channel.messages.fetch()).first()
+        const initialUserEmbed = userEmbedMessage.embeds[0];
+        const newUserEmbed = new MessageEmbed(initialUserEmbed);
+        userEmbedMessage.edit({ embeds: [newUserEmbed], components: [selectMenuRow] });
+
         const result = await submitDB.find({ ChannelID: channel.id })
-        console.log(result[0].MessageID)
 
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
@@ -28,15 +62,5 @@ module.exports = {
             .setColor("RED")
             .setTitle("APPLICATION DENIED")
         message.edit({ embeds: [AnswerEmbed] })
-        interaction.reply({ content: "Application denied!", ephemeral: true })
-        const cache = await ApplicationCache.get(channel.id)
-        const userDM = await client.users.fetch(cache.UserID)
-
-        const DMembed = new MessageEmbed()
-            .setDescription("Im sorry to inform you that your Application has been denied\nYou are allowed to reapply ")
-        userDM.send({ embeds: [DMembed] })
-
-
-
     }
 }

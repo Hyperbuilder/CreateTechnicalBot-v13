@@ -1,5 +1,6 @@
 const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageButton, Client } = require("discord.js");
 const ApplicationCache = require("memory-cache")
+const applicationDB = require("../../../Structures/Schemas/application-schema");
 const submitDB = require("../../../Structures/Schemas/submit-schema");
 
 module.exports = {
@@ -19,6 +20,8 @@ module.exports = {
 
         const result = await submitDB.find({ ChannelID: channel.id })
         console.log(result[0].MessageID)
+
+        applicationDB.findOneAndUpdate({})
 
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)

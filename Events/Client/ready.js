@@ -12,8 +12,7 @@ module.exports = {
      * @param {Client} client
      */
     async execute(client) {
-        console.log("The client is now Ready")
-        client.user.setActivity("CTL", { type: "WATCHING" })
+        client.user.setActivity("YOU :P", { type: "WATCHING" })
 
         if (!Database) return;
         await mongoose.connect(Database, {
@@ -41,7 +40,9 @@ module.exports = {
 
 
 
-        console.log("Documents Cached")
+        console.log(`${applicationQueries.length} Document${applicationQueries.length !== 1 ? "s" : ""} Cached`)
+
+        console.log("The client is now Ready")
 
     }
 };

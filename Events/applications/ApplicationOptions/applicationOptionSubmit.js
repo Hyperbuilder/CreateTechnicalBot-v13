@@ -14,6 +14,9 @@ module.exports = {
     async execute(interaction, client) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== "submit-application") return;
+
+        await interaction.deferReply({ ephemeral: true });
+
         const { channel, user, member } = interaction;
 
         const Messages = await channel.messages.fetch();
@@ -48,12 +51,12 @@ module.exports = {
             .setFooter("The buttons below are Staff Only")
 
         Initialmessage.edit({ embeds: [AnswerEmbed], components: [StaffButtons] })
-        interaction.reply({ content: "Your Applications has successfully been submitted!", ephemeral: true })
+        interaction.editReply({ content: "Your Applications has successfully been submitted!", ephemeral: true })
 
         const EndEmbed = new MessageEmbed(InitialEmbed)
             .setTitle(`${interaction.user.username} Submitted an application!`)
             .setAuthor(interaction.user.username)
-            .setDescription(`${channel}\n${user}'s Account was Created <t:${parseInt(user.createdTimestamp / 1000)}:R>\nJoined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`)
+            .setDescription(`${channel}\n\n${user}'s Account was Created <t:${parseInt(user.createdTimestamp / 1000)}:R>\nJoined: <t:${parseInt(member.joinedTimestamp / 1000)}:R>`)
             .setColor("ORANGE")
         const StaffChannel = client.channels.cache.get('797422520655413276');
         StaffChannel.send({ embeds: [EndEmbed] }).then(async (message) => {

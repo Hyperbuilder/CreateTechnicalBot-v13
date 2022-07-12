@@ -1,7 +1,7 @@
 const { MessageEmbed, Message, Client, MessageActionRow, MessageButton } = require("discord.js");
 const ApplicationCache = require("memory-cache");
-const applicationDB = require("../../Structures/Schemas/application-schema");
-const applicationQuestions = require("../../Structures/Templates/applicationQuestions.json")
+const applicationDB = require("../Schemas/application-schema");
+const applicationQuestions = require("../Templates/applicationQuestions.json")
 const delay = async ms => new Promise(res => setTimeout(res, ms))
 
 module.exports = {
@@ -14,13 +14,19 @@ module.exports = {
      */
     async execute(message, client) {
         if (message.author.bot) return
-        const { channel, author } = message;
+
+        const { channel, author, content } = message;
 
         const Document = await ApplicationCache.get(channel.id)
         if (!Document) return;
         if (author.id !== Document.UserID) return;
 
-        if (message.content.length > 1024) return channel.send("Your submitted answer has exeeded Discords limitations on Embeds. Please try to shorten your answer and submit your answer again!").then(async (message) => {
+        await message.delete().catch((err) => {
+            console.log('Could not delete the message', err)
+            return channel.send("An internal error has occured! Please cancel this application using the button above and start over. Im very sorry for the inconvenience! -CTBot")
+        })
+
+        if (content.length > 1024) return channel.send("Your submitted answer has exeeded Discords limitations on Embeds. Please try to shorten your answer and submit your answer again!").then(async (message) => {
             await delay(2000)
             message.delete()
         })
@@ -38,8 +44,9 @@ module.exports = {
 
             ApplicationCache.del(channel.id);
 
-            Answers.push(message.content);
-            await message.delete();
+            Answers.push(content);
+
+
             QuestionNumber++;
 
             await applicationDB.updateOne({ ChannelID: channel.id }, {
@@ -67,16 +74,13 @@ module.exports = {
             const Initialmessage = messages[0];
             const InitialEmbed = Initialmessage.embeds[0]
             const AnswerEmbed = new MessageEmbed(InitialEmbed)
-                .setTitle(`${applicationQuestions[QuestionNumber] ? applicationQuestions[QuestionNumber] : ""}`)
-                .setDescription("Your Application has started!")
+                .setTitle(`Question #${QuestionNumber}`)
+                .setDescription(`${applicationQuestions[QuestionNumber] ? applicationQuestions[QuestionNumber] : ""}`)
 
-            for (let x = 0; x < Answers.length; x++) {
-                AnswerEmbed.spliceFields(x, 1, { name: `${applicationQuestions[x]}: `, value: `${Answers[x] ? Answers[x] : "To be answered!"} `, inline: true })
-            }
 
             if (QuestionNumber === Document.TotalQuestions) {
                 AnswerEmbed.setTitle("You have Finished your Application!")
-                AnswerEmbed.setDescription("You have Finished your Application!\nYou can use the Submit button below to submit your application for review")
+                AnswerEmbed.setDescription("You can use the Submit button below to submit your application for review")
                 const UserButtons = new MessageActionRow()
                     .setComponents(
                         new MessageButton()

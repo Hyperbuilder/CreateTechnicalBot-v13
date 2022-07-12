@@ -15,21 +15,25 @@ module.exports = {
         if (interaction.customId !== "restart-application") return;
 
         const { user, channel } = interaction;
+
+        const Document = await ApplicationCache.get(channel.id)
+        if (!Document) return;
+        if (user.id !== Document.UserID) return;
+
         const UserButtons = new MessageActionRow()
             .addComponents(
                 new MessageButton()
                     .setCustomId("restart-application")
                     .setLabel("Restart")
-                    .setStyle("PRIMARY"),
+                    .setStyle("SECONDARY"),
                 new MessageButton()
                     .setCustomId("cancel-application")
                     .setLabel("Cancel")
-                    .setStyle("PRIMARY"),
+                    .setStyle("DANGER"),
                 new MessageButton()
-                    .setCustomId("submit-application")
-                    .setLabel("Submit")
-                    .setStyle("SUCCESS")
-                    .setDisabled()
+                    .setCustomId("question")
+                    .setLabel("Question #1")
+                    .setStyle("SECONDARY")
             )
 
         let Answers = [];
@@ -42,7 +46,7 @@ module.exports = {
 
         await applicationDB.updateOne({ ChannelID: channel.id }, {
             Answers: Answers,
-            QuestionNumber: 0,
+            QuestionNumber: 1,
             Member: false,
             Submit: false
         });
@@ -51,7 +55,7 @@ module.exports = {
             UserID: user.id,
             ChannelID: channel.id,
             Answers: Answers,
-            QuestionNumber: 0,
+            QuestionNumber: 1,
             TotalQuestions: applicationQuestions.length,
             Member: false,
             Submit: false
@@ -61,10 +65,6 @@ module.exports = {
         const Initial = new MessageEmbed()
             .setTitle("Welcome to your Application")
             .setDescription(`**READ WITH CARE** You will soon start your application!\nThe application consists of ${applicationQuestions.length} [**Questions**](${interaction.message.url}) These questions will appear above! Below this you will find an overview of all the questions and your answers\nNote: **all** questions must be answered to submit the application`)
-            .setFooter("Use the Buttons below to Stop or Redo your application")
-        for (let l = 0; l < applicationQuestions.length; l++) {
-            Initial.addField(`${applicationQuestions[l]}:`, `To be answered`, true);
-        }
 
         channel.send({ embeds: [Initial], components: [UserButtons] })
     }

@@ -1,4 +1,4 @@
-const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageButton, Client } = require("discord.js");
 const ApplicationCache = require("memory-cache")
 const applicationDB = require("../../Structures/Schemas/application-schema");
 const applicationQuestions = require("../../Structures/Templates/applicationQuestions.json")
@@ -9,42 +9,55 @@ module.exports = {
     name: "interactionCreate",
     /**
      * 
-     * @param {ButtonInteraction} interaction 
+     * @param {ButtonInteraction} interaction
+     * @param {Client} client
      */
-    async execute(interaction) {
+    async execute(interaction, client) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== "start-application") return;
+
+        //---[ Check amount of channels in application category ]---//
+        const categoryChannel = client.channels.cache.get('802690281312485416')
+        if (categoryChannel.children.size >= 50) {
+            console.error(`ALERT: Category ${categoryChannel.name} is FULL, ${categoryChannel.children.size}`)
+            return interaction.reply({ content: "Currently we are at discords capacity of 50 channels. Please ping Hyperbuilder!", ephemeral: true });
+        }
 
         const { member, guild, user } = interaction;
 
         let Answers = [];
-        let QuestionNumber = 0;
+        let QuestionNumber = 1;
 
-        const Initial = new MessageEmbed()
-            .setTitle("Welcome to your Application! Read below!")
-            .setDescription(`**READ WITH CARE** You will soon start your application!\nThe application consists of ${applicationQuestions.length} [**Questions**](${interaction.message.url}) These questions will appear above! Below this you will find an overview of all the questions and your answers\nNote: **all** questions must be answered to submit the application\n\nYou can now start your application by answering the first Question!`)
-            .setFooter("Use the Buttons below to Stop or Restart your application. Stopping an Application will **delete** this channel!")
-        for (let l = 0; l < applicationQuestions.length; l++) {
-            Initial.addField(`${applicationQuestions[l]}:`, `To be answered`, true);
+        //---[ Check if user has an open application ]---//
+        const result = await applicationDB.findOne({ UserID: user.id })
+        if (result !== null) {
+            if (result.submit) return interaction.reply({ content: "You have an application awaiting review, Please wait for your previously submitted application to be reviewed", ephemeral: true })
+            if (result) return interaction.reply({ content: "You have an application open! Please close or finish the open application first.\n\*if you think this is an error. Dm Hyperbuilder\*", ephemeral: true })
         }
+
+        //---[ Setup initial Embed to send to user ]---//
+        const Initial = new MessageEmbed()
+            .setTitle("Welcome to your Application! \nRead below!")
+            .setDescription(`**READ WITH CARE** Your application will start soon!\nThe application consists of ${applicationQuestions.length} [**Questions**](${interaction.message.url})\nNote: **all** questions must be answered to submit the application`)
+            .setFooter("Use the Buttons below to Stop or Restart your application. Stopping an Application will **delete** this channel!")
 
         const UserButtons = new MessageActionRow()
             .addComponents(
                 new MessageButton()
                     .setCustomId("restart-application")
                     .setLabel("Restart")
-                    .setStyle("PRIMARY"),
+                    .setStyle("SECONDARY"),
                 new MessageButton()
                     .setCustomId("cancel-application")
                     .setLabel("Cancel")
-                    .setStyle("PRIMARY"),
+                    .setStyle("DANGER"),
                 new MessageButton()
-                    .setCustomId("submit-application")
-                    .setLabel("Submit")
-                    .setStyle("SUCCESS")
-                    .setDisabled()
+                    .setCustomId("question")
+                    .setLabel("Question #1")
+                    .setStyle("SECONDARY")
             )
 
+        //---[ Create Application channel ]---//
         await guild.channels.create(`${user.username}s Application`, {
             type: "GUILD_TEXT",
             parent: "802690281312485416",
@@ -60,6 +73,12 @@ module.exports = {
             ],
             rateLimitPerUser: 2
         }).then(async (channel) => {
+            //---[ Notify that user has started an application ]---//
+            interaction.reply({ content: `Your application started in ${channel}`, ephemeral: true })
+            channel.send({ embeds: [Initial], components: [UserButtons] })
+            console.log(`New channel created. ID: ${channel.id}`)
+
+            //---[ Store Channel Id, User Id, etc. in Cache and MongoDB ]---//
             await new applicationDB({
                 UserID: interaction.user.id,
                 ChannelID: channel.id,
@@ -70,7 +89,7 @@ module.exports = {
                 Submit: false
             }).save()
 
-            ApplicationCache.put(channel.id, {
+            await ApplicationCache.put(channel.id, {
                 UserID: interaction.user.id,
                 ChannelID: channel.id,
                 Answers: Answers,
@@ -79,10 +98,6 @@ module.exports = {
                 Member: false,
                 Submit: false
             })
-
-            interaction.reply({ content: `Your application started in ${channel}`, ephemeral: true })
-            channel.send({ embeds: [Initial], components: [UserButtons] })
-            console.log(`New channel created. ID: ${channel.id}`)
         })
     }
 }

@@ -1,5 +1,5 @@
 const { MessageEmbed, WebhookClient, GuildMember } = require("discord.js");
-const LogURL = require("../../Structures/config.json")
+const LogToken = require("../../config.json")
 
 module.exports = {
     name: "guildMemberRemove",
@@ -13,7 +13,7 @@ module.exports = {
 
         // add role //
 
-        const Logger = new WebhookClient({ url: LogURL })
+        const Logger = new WebhookClient({ id: "926506667816939560", token: `${LogToken}` })
 
         const Log = new MessageEmbed()
             .setColor("AQUA")

@@ -3,18 +3,18 @@ const { CommandInteraction, MessageEmbed } = require("discord.js");
 module.exports = {
     name: "clear",
     description: "Delete Messages from a channel or Target",
-    permission: "",
+    permission: "ADMINISTRATOR",
     options: [
         {
             name: "amount",
             description: "Select the amount to delete from a Channel or Target",
-            type: "NUMBER",
+            type: 10,
             required: true,
         },
         {
             name: "target",
             description: "Select the Target to remove messages from",
-            type: "USER",
+            type: 6,
             required: false
         }
     ],

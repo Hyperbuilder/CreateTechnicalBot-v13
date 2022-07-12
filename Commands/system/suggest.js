@@ -1,5 +1,4 @@
 const { CommandInteraction, MessageEmbed } = require("discord.js")
-const { execute } = require("../Dev/emitt")
 
 module.exports = {
     name: "suggest",
@@ -8,14 +7,14 @@ module.exports = {
         {
             name: "modlink",
             description: "Provide a link to the CurseForge modpage!",
-            type: "STRING",
+            type: 3,
             required: true,
 
         },
         {
             name: "functionality",
             description: "Describe the functionality of the mod!",
-            type: "STRING",
+            type: 3,
             required: true,
 
         }

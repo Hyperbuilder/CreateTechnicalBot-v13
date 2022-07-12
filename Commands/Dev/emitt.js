@@ -5,12 +5,12 @@ const { description } = require("./status");
 module.exports = {
     name: "emitt",
     description: "Event emitter",
-    permission: "",
+    permission: "ADMINISTRATOR",
     options: [
         {
             name: "member",
             description: "GuildMember Events",
-            type: "STRING",
+            type: 3,
             required: true,
             choices: [
                 {

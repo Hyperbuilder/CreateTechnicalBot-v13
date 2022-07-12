@@ -9,7 +9,6 @@ const Ascii = require("ascii-table");
 
 client.commands = new Collection();
 
-
 ["Events", "Commands"].forEach(handler => {
     require(`./Structures/Handlers/${handler}`)(client, PG, Ascii)
 });

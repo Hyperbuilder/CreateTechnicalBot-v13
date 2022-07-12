@@ -1,6 +1,6 @@
 const { MessageEmbed, Message, WebhookClient } = require("discord.js");
 const ApplicationCache = require("memory-cache");
-const LogURL = require("../../Structures/config.json")
+const LogToken = require("../../config.json")
 
 module.exports = {
     name: "messageDelete",
@@ -24,7 +24,7 @@ module.exports = {
         }
 
 
-        new WebhookClient({ url: LogURL })
+        new WebhookClient({ id: "926506667816939560", token: `${LogToken}` })
             .send({ embeds: [Log] })
     }
 }

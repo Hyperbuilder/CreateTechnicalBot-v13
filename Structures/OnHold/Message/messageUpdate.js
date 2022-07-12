@@ -1,5 +1,5 @@
 const { MessageEmbed, Message, WebhookClient } = require("discord.js");
-const LogURL = require("../../Structures/config.json")
+const LogToken = require("../../config.json")
 
 module.exports = {
     name: "messageUpdate",
@@ -24,7 +24,7 @@ module.exports = {
             .setFooter(`Member: ${newMessage.author.tag} | ID ${newMessage.author.id}`);
 
 
-        new WebhookClient({ url: LogURL })
+        new WebhookClient({ id: "926506667816939560", token: `${LogToken}` })
             .send({ embeds: [Log] })
     }
 }

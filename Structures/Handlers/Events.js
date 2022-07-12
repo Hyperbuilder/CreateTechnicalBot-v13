@@ -19,7 +19,7 @@ module.exports = async (client, PG, Ascii) => {
             client.on(event.name, (...args) => event.execute(...args, client));
         };
 
-        await Table.addRow(event.name, "Succesful");
+        await Table.addRow(`${file.split('\\').pop().split('/').pop()}`, event.name, "Succesful",);
     });
 
     console.log(`\n${Table.toString()}`);
