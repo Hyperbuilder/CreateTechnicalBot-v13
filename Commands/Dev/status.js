@@ -1,10 +1,12 @@
-const { CommandInteraction, Client, MessageEmbed } = require("discord.js");
+const { CommandInteraction, Client, EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 const { connection } = require("mongoose");
 require("../../Events/Client/ready");
 
 module.exports = {
-    name: "status",
-    description: "Displays Bot status",
+    data: new SlashCommandBuilder()
+        .setName("status")
+        .setDescription("Get bot status")
+        .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages),
     /**
      * 
      * @param {CommandInteraction} interaction
@@ -12,7 +14,7 @@ module.exports = {
      */
     execute(interaction, client) {
 
-        const Response = new MessageEmbed()
+        const Response = new EmbedBuilder()
             .setDescription(`**CLIENT**: \`✔ ONLINE\` - \`${client.ws.ping}ms\`\n**UPTIME**: <t:${parseInt(client.readyTimestamp / 1000)}:R>\n**MONGODB**: \`${switchTo(connection.readyState)}\``)
 
         interaction.reply({ embeds: [Response] })

@@ -1,4 +1,5 @@
-const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageButton, Client } = require("discord.js");
+const { ButtonInteraction, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Client, ButtonStyle, ChannelType, PermissionFlagsBits } = require("discord.js");
+// const { ButtonStyle } = require("discord-api-types/v10");
 const ApplicationCache = require("memory-cache")
 const applicationDB = require("../../Structures/Schemas/application-schema");
 const applicationQuestions = require("../../Structures/Templates/applicationQuestions.json")
@@ -36,39 +37,40 @@ module.exports = {
         }
 
         //---[ Setup initial Embed to send to user ]---//
-        const Initial = new MessageEmbed()
+        const Initial = new EmbedBuilder()
             .setTitle("Welcome to your Application! \nRead below!")
             .setDescription(`**READ WITH CARE** Your application will start soon!\nThe application consists of ${applicationQuestions.length} [**Questions**](${interaction.message.url})\nNote: **all** questions must be answered to submit the application`)
-            .setFooter("Use the Buttons below to Stop or Restart your application. Stopping an Application will **delete** this channel!")
+            .setFooter({ text: "Use the Buttons below to Stop or Restart your application. Stopping an Application will **delete** this channel!" })
 
-        const UserButtons = new MessageActionRow()
+        const UserButtons = new ActionRowBuilder()
             .addComponents(
-                new MessageButton()
+                new ButtonBuilder()
                     .setCustomId("restart-application")
                     .setLabel("Restart")
-                    .setStyle("SECONDARY"),
-                new MessageButton()
+                    .setStyle(ButtonStyle.Secondary),
+                new ButtonBuilder()
                     .setCustomId("cancel-application")
                     .setLabel("Cancel")
-                    .setStyle("DANGER"),
-                new MessageButton()
+                    .setStyle(ButtonStyle.Danger),
+                new ButtonBuilder()
                     .setCustomId("question")
                     .setLabel("Question #1")
-                    .setStyle("SECONDARY")
+                    .setStyle(ButtonStyle.Secondary)
             )
 
         //---[ Create Application channel ]---//
-        await guild.channels.create(`${user.username}s Application`, {
-            type: "GUILD_TEXT",
+        await guild.channels.create({
+            name: `${user.username}s Application`,
+            type: ChannelType.GuildText,
             parent: "802690281312485416",
             permissionOverwrites: [
                 {
                     id: member.id,
-                    allow: ["SEND_MESSAGES", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY"]
+                    allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 },
                 {
                     id: "736160722311970877",
-                    deny: ["SEND_MESSAGES", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY"]
+                    deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 }
             ],
             rateLimitPerUser: 2
@@ -84,7 +86,7 @@ module.exports = {
                 ChannelID: channel.id,
                 Answers: Answers,
                 QuestionNumber: QuestionNumber,
-                TotalQuestions: applicationQuestions.length,
+                TotalQuestions: 1 /*applicationQuestions.length*/,
                 Member: false,
                 Submit: false
             }).save()
@@ -94,7 +96,7 @@ module.exports = {
                 ChannelID: channel.id,
                 Answers: Answers,
                 QuestionNumber: QuestionNumber,
-                TotalQuestions: applicationQuestions.length,
+                TotalQuestions: 1/*applicationQuestions.length */,
                 Member: false,
                 Submit: false
             })

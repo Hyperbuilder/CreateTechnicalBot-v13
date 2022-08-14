@@ -1,24 +1,21 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js")
+const { CommandInteraction, EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js")
 
 module.exports = {
-    name: "suggest",
-    description: "Create a Suggestion",
-    options: [
-        {
-            name: "modlink",
-            description: "Provide a link to the CurseForge modpage!",
-            type: 3,
-            required: true,
-
-        },
-        {
-            name: "functionality",
-            description: "Describe the functionality of the mod!",
-            type: 3,
-            required: true,
-
-        }
-    ],
+    data: new SlashCommandBuilder()
+        .setName("suggest")
+        .setDescription("Suggest a Minecraft mod")
+        .setDefaultMemberPermissions(PermissionFlagsBits.SendMessages)
+        .addStringOption((option) =>
+            option
+                .setName("modlink")
+                .setDescription("Curseforge HTTPS link to modpage")
+                .setRequired(true)
+        )
+        .addStringOption((option) =>
+            option
+                .setName("functionality")
+                .setDescription("Describe mod, provide arguments.")
+        ),
     /**
      * 
      * @param {CommandInteraction} interaction 
@@ -29,7 +26,7 @@ module.exports = {
         const modlink = options.getString("modlink");
         const funcs = options.getString("functionality");
 
-        const Response = new MessageEmbed()
+        const Response = new EmbedBuilder()
             .setColor("AQUA");
 
         function useRegex(input) {
@@ -42,8 +39,10 @@ module.exports = {
             interaction.reply({ embeds: [Response], ephemeral: true })
         } else {
             Response.setDescription(`${interaction.member} has suggested a mod!`)
-            Response.addField("Link:", `${modlink}`)
-            Response.addField("Functionality:", `${funcs}`)
+            Response.addFields(
+                { name: "Link:", value: `${modlink}` },
+                { name: "Functionality:", value: `${funcs}` }
+            )
             const message = await interaction.reply({ embeds: [Response], fetchReply: true })
             message.react("👍")
             message.react("👎")

@@ -1,6 +1,5 @@
 const { Client } = require("discord.js")
 const mongoose = require("mongoose")
-const { Database } = require("../../Structures/config.json")
 const ApplicationCache = require("memory-cache")
 
 const applicationDB = require("../../Structures/Schemas/application-schema");
@@ -14,8 +13,8 @@ module.exports = {
     async execute(client) {
         client.user.setActivity("YOU :P", { type: "WATCHING" })
 
-        if (!Database) return;
-        await mongoose.connect(Database, {
+        if (!client.config.Database) return;
+        await mongoose.connect(client.config.Database, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }).then(() => {

@@ -4,7 +4,7 @@
             "customId": "age",
             "text": "What is your age?",
             "input": "text",
-            "type": "SHORT"
+            "type": "Short"
         }
     },
     {
@@ -12,7 +12,7 @@
             "customId": "mcuser",
             "text": "What is your Minecraft username?",
             "input": "text",
-            "type": "SHORT"
+            "type": "Short"
         }
     },
     {
@@ -20,7 +20,7 @@
             "customId": "learncreate",
             "text": "Where did you learn about the Create mod",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -28,7 +28,7 @@
             "customId": "timecreate",
             "text": "How long have you played with the Create mod",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -36,7 +36,7 @@
             "customId": "learnct",
             "text": "Where did you learn about us",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -44,7 +44,7 @@
             "customId": "joinct",
             "text": "Why do you want to join Create Technical?",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -52,7 +52,7 @@
             "customId": "playtype",
             "text": "What type of player are you?",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -60,7 +60,7 @@
             "customId": "descbuild",
             "text": "Describe one of your best Create builds!",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -68,7 +68,7 @@
             "customId": "facts",
             "text": "Tell us three facts about yourself!",
             "input": "text",
-            "type": "PARAGRAPH"
+            "type": "Paragraph"
         }
     },
     {
@@ -76,7 +76,7 @@
             "customId": "continent",
             "text": "Which continent are you from",
             "input": "menu",
-            "type": "SHORT",
+            "type": "Short",
             "menu": [
                 "Europe",
                 "Asia",

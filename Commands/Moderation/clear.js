@@ -1,23 +1,21 @@
-const { CommandInteraction, MessageEmbed } = require("discord.js");
+const { CommandInteraction, EmbedBuilder, SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
 
 module.exports = {
-    name: "clear",
-    description: "Delete Messages from a channel or Target",
-    permission: "ADMINISTRATOR",
-    options: [
-        {
-            name: "amount",
-            description: "Select the amount to delete from a Channel or Target",
-            type: 10,
-            required: true,
-        },
-        {
-            name: "target",
-            description: "Select the Target to remove messages from",
-            type: 6,
-            required: false
-        }
-    ],
+    data: new SlashCommandBuilder()
+        .setName("clear")
+        .setDescription("Clear messages from target or channel.")
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+        .addIntegerOption((option) =>
+            option
+                .setName("amount")
+                .setDescription("Select the amount to delete from a Channel or Target")
+                .setRequired(true)
+        )
+        .addUserOption((option) =>
+            option
+                .setName("target")
+                .setDescription("Select a UserTarget")
+        ),
 
     /**
      * 
@@ -32,7 +30,7 @@ module.exports = {
 
         const Messages = await channel.messages.fetch();
 
-        const Response = new MessageEmbed()
+        const Response = new EmbedBuilder()
             .setColor("AQUA");
 
         if (Target) {

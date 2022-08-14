@@ -1,17 +1,25 @@
 require('console-stamp')(console, 'mm/dd HH:MM:ss.l');
-const { Client, Collection } = require("discord.js");
-const client = new Client({ intents: 32767 });
-const { token } = require("./Structures/config.json");
-const { promisify } = require("util");
-const { glob } = require("glob");
-const PG = promisify(glob);
-const Ascii = require("ascii-table");
+process.setMaxListeners(20);
+const { Client, GatewayIntentBits, Partials, Collection } = require("discord.js");
+const { Guilds, GuildMembers, GuildMessages } = GatewayIntentBits;
+const { User, Message, GuildMember, ThreadMember } = Partials;
 
-client.commands = new Collection();
-
-["Events", "Commands"].forEach(handler => {
-    require(`./Structures/Handlers/${handler}`)(client, PG, Ascii)
+const client = new Client({
+    intents: [Guilds, GuildMembers, GuildMessages],
+    Partials: [User, Message, GuildMember, ThreadMember]
 });
 
+const { loadEvents } = require("./Handlers/eventHandler")
+const { loadCommands } = require("./Handlers/commandHandler")
 
-client.login(token);
+client.commands = new Collection()
+client.config = require("./Structures/config.json");
+
+
+
+client.login(client.config.token)
+    .then(() => {
+        loadEvents(client);
+        loadCommands(client);
+    })
+    .catch((err) => console.error(err))

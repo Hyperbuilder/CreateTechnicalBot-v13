@@ -1,6 +1,6 @@
-const { ButtonInteraction, MessageEmbed, MessageActionRow, MessageButton } = require("discord.js");
+const { ButtonInteraction } = require("discord.js");
 const ApplicationCache = require("memory-cache")
-const applicationDB = require("../../../Structures/Schemas/application-schema");
+const applicationDB = require("../../Structures/Schemas/application-schema");
 const delay = async ms => new Promise(res => setTimeout(res, ms))
 
 

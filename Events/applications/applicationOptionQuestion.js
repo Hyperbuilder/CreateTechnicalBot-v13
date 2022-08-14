@@ -1,7 +1,7 @@
-const { MessageActionRow, MessageButton, Modal, TextInputComponent, User, Client } = require("discord.js");
+const { ActionRowBuilder, ModalBuilder, TextInputComponent, User, Client, TextInputBuilder } = require("discord.js");
 const ApplicationCache = require("memory-cache");
-const applicationDB = require("../../../Structures/Schemas/application-schema");
-const applicationQuestions = require("../../../Structures/Templates/applicationQuestions.json")
+const applicationDB = require("../../Structures/Schemas/application-schema");
+const applicationQuestions = require("../../Structures/Templates/applicationQuestions.json")
 const delay = async ms => new Promise(res => setTimeout(res, ms))
 
 module.exports = {
@@ -25,17 +25,17 @@ module.exports = {
 
 
         // Create the modal
-        const modal = new Modal()
+        const modal = new ModalBuilder()
             .setCustomId('questionModal')
             .setTitle(`Question #${QuestionNumber}`);
 
-        const textInputComponent = new TextInputComponent()
+        const textInputComponent = new TextInputBuilder()
             .setCustomId(applicationQuestions[QuestionNumber - 1].data.customId)
             .setLabel(applicationQuestions[QuestionNumber - 1].data.text)
             .setStyle(applicationQuestions[QuestionNumber - 1].data.type)
             .setMaxLength(1024)
             .setRequired(true)
-        const textActionRow = new MessageActionRow().addComponents(textInputComponent);
+        const textActionRow = new ActionRowBuilder().addComponents(textInputComponent);
         modal.addComponents(textActionRow);
 
         // if (applicationQuestions[QuestionNumber - 1].data.input === "menu") {
