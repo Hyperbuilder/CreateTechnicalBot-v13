@@ -11,9 +11,9 @@ module.exports = {
 
         // add role //
 
-        guild.roles.fetch() //optional - put it if the role is valid, but is not cached
-        let role = guild.roles.cache.find(role => role.id === '827226948102127656')
-        member.roles.add(role)
+        // guild.roles.fetch()
+        // let role = guild.roles.cache.find(role => role.id === '827226948102127656')
+        // member.roles.add(role)
 
         const Welcomer = new WebhookClient({ id: "1009064379033059428", token: `${client.config.WelcomeToken}` })
         const Logger = new WebhookClient({ id: "926506667816939560", token: `${client.config.LogToken}` })

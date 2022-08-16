@@ -77,7 +77,7 @@ module.exports = {
                     deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 },
                 {
-                    id: "733785266745245737",
+                    id: "733694336570490921",
                     deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 }
             ]
