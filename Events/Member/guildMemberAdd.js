@@ -11,7 +11,7 @@ module.exports = {
 
         // add role //
 
-        await guild.roles.fetch() //optional - put it if the role is valid, but is not cached
+        guild.roles.fetch() //optional - put it if the role is valid, but is not cached
         let role = guild.roles.cache.find(role => role.id === '827226948102127656')
         member.roles.add(role)
 
