@@ -71,9 +71,16 @@ module.exports = {
                 {
                     id: "827226948102127656",
                     deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
+                },
+                {
+                    id: "813247250192138250",
+                    deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
+                },
+                {
+                    id: "733785266745245737",
+                    deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 }
-            ],
-            rateLimitPerUser: 2
+            ]
         }).then(async (channel) => {
             //---[ Notify that user has started an application ]---//
             interaction.reply({ content: `Your application started in ${channel}`, ephemeral: true })
