@@ -21,7 +21,7 @@ module.exports = {
         const Welcome = new EmbedBuilder()
             .setColor("#000080")
             .setAuthor({ name: user.tag, iconUrl: user.avatarURL({ dynamic: true, size: 512 }) })
-            .setDescription(`Welcome ${member} to **${guild.name}**\nAccount Created: <t:${parseInt(user.createdTimestamp / 1000)}:R>\nMember Count: **${guild.memberCount}**`)
+            .setDescription(`Welcome ${member} to **${guild.name}**\nStart you application form in <#1006613986277589062>\nYou can also checkout our Public offerings! <#949407560014917693>\nMember Count: **${guild.memberCount}**`)
             .setFooter({ text: `ID: ${user.id}` })
 
         Welcomer.send({ content: `${member}` })
