@@ -18,7 +18,7 @@ module.exports = {
         if (interaction.customId !== "start-application") return;
 
         //---[ Check amount of channels in application category ]---//
-        const categoryChannel = client.channels.cache.get('802690281312485416')
+        const categoryChannel = client.channels.cache.get('737036004933763158')
         if (categoryChannel.children.size >= 50) {
             console.error(`ALERT: Category ${categoryChannel.name} is FULL, ${categoryChannel.children.size}`)
             return interaction.reply({ content: "Currently we are at discords capacity of 50 channels. Please ping Hyperbuilder!", ephemeral: true });
@@ -62,14 +62,14 @@ module.exports = {
         await guild.channels.create({
             name: `${user.username}s Application`,
             type: ChannelType.GuildText,
-            parent: "802690281312485416",
+            parent: "737036004933763158",
             permissionOverwrites: [
                 {
                     id: member.id,
                     allow: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 },
                 {
-                    id: "736160722311970877",
+                    id: "940164024329445419",
                     deny: [PermissionFlagsBits.SendMessages, PermissionFlagsBits.ViewChannel, PermissionFlagsBits.ReadMessageHistory]
                 }
             ],
@@ -86,7 +86,7 @@ module.exports = {
                 ChannelID: channel.id,
                 Answers: Answers,
                 QuestionNumber: QuestionNumber,
-                TotalQuestions: 1 /*applicationQuestions.length*/,
+                TotalQuestions: applicationQuestions.length,
                 Member: false,
                 Submit: false
             }).save()
@@ -96,7 +96,7 @@ module.exports = {
                 ChannelID: channel.id,
                 Answers: Answers,
                 QuestionNumber: QuestionNumber,
-                TotalQuestions: 1/*applicationQuestions.length */,
+                TotalQuestions: applicationQuestions.length,
                 Member: false,
                 Submit: false
             })
