@@ -41,7 +41,7 @@ module.exports = {
         const recievedMessage = (await channel.messages.fetch()).first()
         const recievedEmbed = await recievedMessage.embeds[0]
 
-        const UserSubmitEndpointEmbed = new EmbedBuilder.from(recievedEmbed)
+        const UserSubmitEndpointEmbed = EmbedBuilder.from(recievedEmbed)
             .setTitle(`Application submitted`)
             .setDescription("You have submitted your application for Review!\nPlease wait patiently so that our Staff team can review your application!")
             .setFooter({ text: "The buttons below are Staff Only" })
