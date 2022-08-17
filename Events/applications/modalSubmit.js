@@ -30,6 +30,7 @@ module.exports = {
         let response = await interaction.fields.getTextInputValue(applicationQuestions[QuestionNumber - 1].data.customId);
         if (response) await interaction.reply({ content: `Question #${QuestionNumber} recieved successfully!` })
 
+        console.log(`${user.username} submitted question ${QuestionNumber}, Answer: ${response}`)
 
         ApplicationCache.del(channel.id);
 

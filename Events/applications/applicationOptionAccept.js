@@ -2,6 +2,7 @@ const { ButtonInteraction, EmbedBuilder, Client } = require("discord.js");
 const ApplicationCache = require("memory-cache")
 const applicationDB = require("../../Structures/Schemas/application-schema");
 const submitDB = require("../../Structures/Schemas/submit-schema");
+const Transcripts = require("discord-html-transcripts")
 
 module.exports = {
     name: "interactionCreate",
@@ -24,7 +25,7 @@ module.exports = {
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
         const InitialEmbed = message.embeds[0]
-        const AnswerEmbed = new EmbedBuilder(InitialEmbed)
+        const AnswerEmbed = mbedBuilder.from(InitialEmbed)
             .setColor("#7CFC00")
             .setTitle("APPLICATION ACCEPTED")
         message.edit({ embeds: [AnswerEmbed] })
