@@ -66,6 +66,16 @@ module.exports = {
                 Submit: true
             });
 
+            ApplicationCache.put(channel.id, {
+                UserID: user.id,
+                ChannelID: channel.id,
+                Answers: Answers,
+                QuestionNumber: QuestionNumber,
+                TotalQuestions: TotalQuestions,
+                Member: Member,
+                Submit: Submit
+            })
+
             interaction.message.edit({ embeds: [embed], components: [UserButtons] })
 
         }
