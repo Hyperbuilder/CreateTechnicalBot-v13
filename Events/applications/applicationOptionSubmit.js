@@ -19,7 +19,7 @@ module.exports = {
 
         const { channel, user, member } = interaction;
 
-        await interaction.deferReply()
+        await interaction.deferReply({ empheral: true })
 
         const Document = await ApplicationCache.get(channel.id)
         if (!Document) return;
