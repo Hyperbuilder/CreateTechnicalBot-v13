@@ -19,7 +19,7 @@ module.exports = {
 
         const { channel, user, member } = interaction;
 
-        await interaction.reply({ content: "Submitting applicationform", ephemeral: true })
+        await interaction.deferReply()
 
         const Document = await ApplicationCache.get(channel.id)
         if (!Document) return;
@@ -38,20 +38,17 @@ module.exports = {
                     .setStyle(ButtonStyle.Danger)
             )
 
-        const UserSubmitEndpointEmbed = new EmbedBuilder()
+        const recievedMessage = (await channel.messages.fetch()).first()
+        const recievedEmbed = await recievedMessage.embeds[0]
+
+        const UserSubmitEndpointEmbed = new EmbedBuilder.from(recievedEmbed)
             .setTitle(`Application submitted`)
             .setDescription("You have submitted your application for Review!\nPlease wait patiently so that our Staff team can review your application!")
             .setFooter({ text: "The buttons below are Staff Only" })
 
-        Answers.forEach(Answer => {
-            let num = Answers.indexOf(Answer)
-            UserSubmitEndpointEmbed.addFields({ name: `${applicationQuestions[num].data.text}`, value: Answer, inline: true })
-        });
-
-        const recievedMessage = (await channel.messages.fetch()).first()
-
         recievedMessage.edit({ embeds: [UserSubmitEndpointEmbed], components: [StaffUserButtons] })
 
+        console.log("Submit Embed Sent")
 
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const StaffChannelEndpointEmbed = new EmbedBuilder()
@@ -71,7 +68,6 @@ module.exports = {
             }).save()
 
         })
-
 
         console.log(`${user.username} has submitted an application`);
         interaction.editReply({ content: "Succesfully submitted applicationform", ephemeral: true })
