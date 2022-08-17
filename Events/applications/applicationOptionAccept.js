@@ -37,11 +37,12 @@ module.exports = {
         const DMembed = new EmbedBuilder()
             .setTitle("Create Technical Application")
             .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nGet your whitelist in <#1003331777064083557>`)
-        userDM.send({ embeds: [DMembed] })
-        interaction.reply({ content: "Application accepted", ephemeral: true })
+
+        const attachment = await Transcripts.createTranscript(interaction.channel);
+        userDM.send({ embeds: [DMembed], files: [attachment] })
+        interaction.reply({ content: "Application accepted" })
 
         const guild = await client.guilds.fetch("733694336570490921")
-        console.log(guild)
         if (!guild) return console.log("No Guild FOUND")
         const role = await guild.roles.cache.find(role => role.id === "733785266745245737");
         guild.members.cache.get(userID).roles.add(role)
@@ -49,5 +50,10 @@ module.exports = {
         await applicationDB.updateOne({ ChannelID: channel.id }, {
             Member: true
         });
+
+
+        await delay(10000) // 10 sec
+
+        channel.delete()
     }
 }
