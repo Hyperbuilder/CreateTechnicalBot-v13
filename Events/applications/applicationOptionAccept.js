@@ -38,6 +38,7 @@ module.exports = {
         const DMembed = new EmbedBuilder()
             .setTitle("Create Technical Application")
             .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nGet your whitelist in <#1003331777064083557>`)
+            .setFooter({ text: "The HTML file provides a transcript of the deleted channel" })
 
         const attachment = await Transcripts.createTranscript(interaction.channel);
         userDM.send({ embeds: [DMembed], files: [attachment] })
