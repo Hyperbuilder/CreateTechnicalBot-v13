@@ -18,7 +18,7 @@ module.exports = {
         if (interaction.customId !== "accept-application") return;
         if (!["410953870643298314", "432217612345278476"].includes(interaction.user.id)) return interaction.reply({ content: "I only follow CSH's orders! (Missing Permissions)", ephemeral: true })
 
-        const { channel, user, guild, member } = interaction;
+        const { channel, user, guild } = interaction;
 
         const result = await submitDB.find({ ChannelID: channel.id })
 
@@ -46,8 +46,8 @@ module.exports = {
 
         if (!guild) return console.log("No Guild FOUND")
         const role = await guild.roles.cache.find(role => role.id === "733785266745245737");
+        const member = await guild.members.fetch(user)
         member.roles.add(role)
-
 
         await applicationDB.updateOne({ ChannelID: channel.id }, {
             Member: true
