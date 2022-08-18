@@ -23,7 +23,7 @@ module.exports = {
 
         const Document = await ApplicationCache.get(channel.id)
         if (!Document) return;
-        if (user.id !== Document.UserID) return console.error("Stranger submitting someones form")
+        if (user.id !== Document.UserID) return console.error(`${user.username} submitting someones form. Channel: ${channel.name} ${user.id} =/= ${Document.UserID}`)
         let Answers = Document.Answers
 
         const StaffUserButtons = new ActionRowBuilder()
@@ -52,7 +52,7 @@ module.exports = {
 
         recievedMessage.edit({ embeds: [UserSubmitEndpointEmbed], components: [StaffUserButtons] })
 
-        console.log("Submit Embed Sent")
+        console.log("applicationOptionSubmit Stage 1: Sending UserEndpointEmbed, Complete")
 
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const StaffChannelEndpointEmbed = new EmbedBuilder()

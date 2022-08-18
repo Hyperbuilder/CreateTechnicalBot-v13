@@ -30,7 +30,7 @@ module.exports = {
         let QuestionNumber = 1;
 
         //---[ Check if user has an open application ]---//
-        const result = await applicationDB.findOne({ UserID: user.id })
+        const result = await applicationDB.findOne({ UserID: user.id, Member: false })
         if (result !== null) {
             if (result.submit) return interaction.reply({ content: "You have an application awaiting review, Please wait for your previously submitted application to be reviewed", ephemeral: true })
             if (result) return interaction.reply({ content: "You have an application open! Please close or finish the open application first.\n\*if you think this is an error. Dm Hyperbuilder\*", ephemeral: true })

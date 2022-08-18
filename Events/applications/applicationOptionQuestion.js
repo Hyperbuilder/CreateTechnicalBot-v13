@@ -21,7 +21,6 @@ module.exports = {
         if (user.id !== Document.UserID) return;
 
         let QuestionNumber = Document.QuestionNumber
-        console.log(QuestionNumber)
 
 
         // Create the modal

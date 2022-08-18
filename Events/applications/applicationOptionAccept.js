@@ -23,13 +23,17 @@ module.exports = {
         const result = await submitDB.find({ ChannelID: channel.id })
 
 
+        const attachment = await Transcripts.createTranscript(channel, /*{ returnType: 'buffer' }*/);
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
         const InitialEmbed = message.embeds[0]
         const AnswerEmbed = EmbedBuilder.from(InitialEmbed)
             .setColor("#7CFC00")
             .setTitle("APPLICATION ACCEPTED")
-        message.edit({ embeds: [AnswerEmbed] })
+            .setFooter({ text: "HTML File Contains Transcript of the Application!" })
+        message.edit({ embeds: [AnswerEmbed], files: [attachment] })
+
+
 
         const cache = await ApplicationCache.get(channel.id)
         const userID = await cache.UserID
@@ -38,10 +42,9 @@ module.exports = {
         const DMembed = new EmbedBuilder()
             .setTitle("Create Technical Application")
             .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nGet your whitelist in <#1003331777064083557>`)
-            .setFooter({ text: "The HTML file provides a transcript of the deleted channel" })
+            .setFooter({ text: "A Transcription of the Application Channel can be requested. Ask Hyperbuilder" })
 
-        const attachment = await Transcripts.createTranscript(channel, /*{ returnType: 'buffer' }*/);
-        userDM.send({ embeds: [DMembed], files: [attachment] })
+        userDM.send({ embeds: [DMembed] })
         interaction.reply({ content: "Application accepted" })
 
         if (!guild) return console.log("No Guild FOUND")
@@ -53,6 +56,7 @@ module.exports = {
             Member: true
         });
 
+        channel.send({ content: "Channel will be deleted in 10 seconds!\nTranscript will be stored" })
 
         await delay(10000) // 10 sec
 
