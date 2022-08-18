@@ -38,7 +38,7 @@ module.exports = {
                     .setStyle(ButtonStyle.Danger)
             )
 
-        const recievedMessage = await channel.messages.fetch()
+        const recievedMessage = await (await channel.messages.fetch()).last()
 
         const UserSubmitEndpointEmbed = new EmbedBuilder()
             .setTitle(`Application submitted`)
@@ -50,7 +50,7 @@ module.exports = {
             UserSubmitEndpointEmbed.addFields({ name: `${applicationQuestions[num].data.text}`, value: Answer, inline: true })
         });
 
-        recievedMessage[0].edit({ embeds: [UserSubmitEndpointEmbed], components: [StaffUserButtons] })
+        recievedMessage.edit({ embeds: [UserSubmitEndpointEmbed], components: [StaffUserButtons] })
 
         console.log("Submit Embed Sent")
 

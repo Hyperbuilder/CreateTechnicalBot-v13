@@ -1,3 +1,4 @@
+const delay = async ms => new Promise(res => setTimeout(res, ms))
 const { ButtonInteraction, EmbedBuilder, Client } = require("discord.js");
 const ApplicationCache = require("memory-cache")
 const applicationDB = require("../../Structures/Schemas/application-schema");
@@ -17,7 +18,7 @@ module.exports = {
         if (interaction.customId !== "accept-application") return;
         if (!["410953870643298314", "432217612345278476"].includes(interaction.user.id)) return interaction.reply({ content: "I only follow CSH's orders! (Missing Permissions)", ephemeral: true })
 
-        const { channel, user } = interaction;
+        const { channel, user, guild, member } = interaction;
 
         const result = await submitDB.find({ ChannelID: channel.id })
 
@@ -31,7 +32,6 @@ module.exports = {
         message.edit({ embeds: [AnswerEmbed] })
 
         const cache = await ApplicationCache.get(channel.id)
-        console.log(cache)
         const userID = await cache.UserID
         const userDM = await client.users.fetch(userID)
 
@@ -40,14 +40,14 @@ module.exports = {
             .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nGet your whitelist in <#1003331777064083557>`)
             .setFooter({ text: "The HTML file provides a transcript of the deleted channel" })
 
-        const attachment = await Transcripts.createTranscript(interaction.channel);
+        const attachment = await Transcripts.createTranscript(channel, /*{ returnType: 'buffer' }*/);
         userDM.send({ embeds: [DMembed], files: [attachment] })
         interaction.reply({ content: "Application accepted" })
 
-        const guild = await client.guilds.fetch("733694336570490921")
         if (!guild) return console.log("No Guild FOUND")
         const role = await guild.roles.cache.find(role => role.id === "733785266745245737");
-        guild.members.cache.get(userID).roles.add(role)
+        member.roles.add(role)
+
 
         await applicationDB.updateOne({ ChannelID: channel.id }, {
             Member: true
