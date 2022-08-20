@@ -43,10 +43,15 @@ module.exports = {
             interaction.reply({ content: `Thank you for your application to join Create Technical! We appreciate your interest in our community and your time in filling out the application. Unfortunately, we must decline your application at this current time.\n\nWe're looking for members with a little more experience with create as this is more a place for experienced players rather than someone just starting out. We would love to have you apply again down the road when you have spent more time playing with Create!\n\nFeel free to check out our current public server offerings to see if they are of interest, and we hope that you stick around to see what the technical community will get up to in the future! We wish you the best of luck in your journey with the Create mod.\n\nSincerely,\nThe Create Technical Team\n\nThis Channel has been closed and is Transcripted to a HTML File.` })
         } else return
 
+        let dmclosed = false;
+
         console.log(`Application by ${user.username} was denied, reason: ${value}`)
         await delay(1000)
         const attachment = await Transcripts.createTranscript(interaction.channel);
-        user.send({ embeds: [DMembed], files: [attachment] })
+        user.send({ embeds: [DMembed] }).catch(() => {
+            dmclosed = true
+            interaction.reply({ content: "User has Direct Messages Closed for Create Technical!" })
+        })
 
         const result = await submitDB.find({ ChannelID: channel.id })
 
@@ -62,6 +67,8 @@ module.exports = {
 
         ApplicationCache.del(channel.id);
         await applicationDB.findOneAndDelete({ ChannelID: channel.id })
+
+        if (dmclosed) return interaction.followUp({ content: "Channel will not be deleted since Direct messages is Closed" })
         channel.delete()
 
 

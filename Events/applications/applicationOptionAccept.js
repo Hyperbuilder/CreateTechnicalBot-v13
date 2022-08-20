@@ -44,7 +44,12 @@ module.exports = {
             .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nGet your whitelist in <#1003331777064083557>`)
             .setFooter({ text: "A Transcription of the Application Channel can be requested. Ask Hyperbuilder" })
 
-        userDM.send({ embeds: [DMembed] })
+
+        let dmclosed = false;
+        userDM.send({ embeds: [DMembed] }).catch(() => {
+            dmclosed = true;
+            interaction.reply({ content: "User has Direct Messages Closed for Create Technical!" })
+        })
         interaction.reply({ content: "Application accepted" })
 
         if (!guild) return console.log("No Guild FOUND")
@@ -56,6 +61,7 @@ module.exports = {
             Member: true
         });
 
+        if (dmclosed) return interaction.followUp({ content: "Channel will not be deleted since Direct messages is Closed" })
         channel.send({ content: "Channel will be deleted in 10 seconds!\nTranscript will be stored" })
 
         await delay(10000) // 10 sec
