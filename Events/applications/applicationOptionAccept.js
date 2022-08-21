@@ -22,6 +22,8 @@ module.exports = {
 
         const result = await submitDB.find({ ChannelID: channel.id })
 
+        const Document = await ApplicationCache.get(channel.id)
+        if (!Document) return interaction.reply({ content: "Could'nt find user document. Sorry\n-Hyper" });
 
         const attachment = await Transcripts.createTranscript(channel, /*{ returnType: 'buffer' }*/);
         const StaffChannel = client.channels.cache.get('797422520655413276');
@@ -33,10 +35,7 @@ module.exports = {
             .setFooter({ text: "HTML File Contains Transcript of the Application!" })
         message.edit({ embeds: [AnswerEmbed], files: [attachment] })
 
-
-
-        const cache = await ApplicationCache.get(channel.id)
-        const userID = await cache.UserID
+        const userID = await Document.UserID
         const userDM = await client.users.fetch(userID)
 
         const DMembed = new EmbedBuilder()

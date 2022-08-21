@@ -1,5 +1,4 @@
 const { Client, CommandInteraction, EmbedBuilder, ContextMenuInteraction } = require("discord.js");
-const { execute } = require("../Client/ready");
 
 module.exports = {
     name: "interactionCreate",
@@ -11,7 +10,7 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        console.log(`${interaction.name} has been triggered by ${interaction.user.username}`)
+        console.log(`${interaction.customId ? `${interaction.customId} button has been pressed by` : `${interaction.commandName} has been triggered by`}  ${interaction.user.username}\n`)
 
         if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
             const command = client.commands.get(interaction.commandName)
