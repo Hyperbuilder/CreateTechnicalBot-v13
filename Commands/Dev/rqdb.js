@@ -18,7 +18,7 @@ module.exports = {
         const applicationQueries = await applicationDB.find({ Member: false })
 
         applicationQueries.forEach(document => {
-            interaction.reply({ content: `\`\`\`${document}\`\`\`` })
+            interaction.channel.send({ content: `\`\`\`${document}\`\`\`` })
         })
 
     }
