@@ -13,7 +13,7 @@ module.exports = {
      * @param {CommandInteraction} interaction
      * @param {Client} client
      */
-    execute(interaction, client) {
+    async execute(interaction, client) {
 
         const applicationQueries = await applicationDB.find({ Member: false })
 
