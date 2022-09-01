@@ -51,10 +51,11 @@ module.exports = {
         })
         interaction.reply({ content: "Application accepted" })
 
-        if (!guild) return console.log("No Guild FOUND")
+        if (!guild) return console.log("No Guild Found")
         const role = await guild.roles.cache.find(role => role.id === "733785266745245737");
+        if (!role) return console.log("No Role Found")
         const member = await guild.members.fetch(user)
-        member.roles.add(role)
+        member.roles.add(role).catch((err) => console.error(err))
 
         await applicationDB.updateOne({ ChannelID: channel.id }, {
             Member: true

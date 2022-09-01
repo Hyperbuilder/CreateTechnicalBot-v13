@@ -10,7 +10,7 @@ module.exports = {
      */
     async execute(interaction, client) {
 
-        console.log(`${interaction.customId ? `${interaction.customId} button has been pressed by` : `${interaction.commandName} has been triggered by`}  ${interaction.user.username}\n`)
+        console.log(`${interaction.customId ? `${interaction.customId} button has been pressed by` : `${interaction.commandName} has been triggered by`}  ${interaction.user.username}`)
 
         if (interaction.isChatInputCommand() || interaction.isUserContextMenuCommand()) {
             const command = client.commands.get(interaction.commandName)
@@ -22,8 +22,6 @@ module.exports = {
                 ],
                 empheral: true
             }) && client.commands.delete(interaction.commandName);
-
-            console.log(`${interaction.commandName} has been triggered by ${interaction.user.username}`)
             command.execute(interaction, client)
         }
     }
