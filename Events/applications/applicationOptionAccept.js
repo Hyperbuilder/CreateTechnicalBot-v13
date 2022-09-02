@@ -25,16 +25,6 @@ module.exports = {
         const Document = await ApplicationCache.get(channel.id)
         if (!Document) return interaction.reply({ content: "Could'nt find user document. Sorry\n-Hyper" });
 
-        const attachment = await Transcripts.createTranscript(channel, /*{ returnType: 'buffer' }*/);
-        const StaffChannel = client.channels.cache.get('797422520655413276');
-        const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
-        const InitialEmbed = message.embeds[0]
-        const AnswerEmbed = EmbedBuilder.from(InitialEmbed)
-            .setColor("#7CFC00")
-            .setTitle("APPLICATION ACCEPTED")
-            .setFooter({ text: "HTML File Contains Transcript of the Application!" })
-        message.edit({ embeds: [AnswerEmbed], files: [attachment] })
-
         const userID = await Document.UserID
         const userDM = await client.users.fetch(userID)
 
@@ -49,6 +39,7 @@ module.exports = {
             dmclosed = true;
             interaction.reply({ content: "User has Direct Messages Closed for Create Technical!" })
         })
+
         interaction.reply({ content: "Application accepted" })
 
         if (!guild) return console.log("No Guild Found")
@@ -61,8 +52,20 @@ module.exports = {
             Member: true
         });
 
+        const attachment = await Transcripts.createTranscript(channel, /*{ returnType: 'buffer' }*/);
+        const StaffChannel = client.channels.cache.get('797422520655413276');
+        const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
+        const InitialEmbed = message.embeds[0]
+        const AnswerEmbed = EmbedBuilder.from(InitialEmbed)
+            .setColor("#7CFC00")
+            .setTitle("APPLICATION ACCEPTED")
+            .setFooter({ text: "HTML File Contains Transcript of the Application!" })
+        message.edit({ embeds: [AnswerEmbed], files: [attachment] })
+
         if (dmclosed) return interaction.followUp({ content: "Channel will not be deleted since Direct messages is Closed" })
         channel.send({ content: "Channel will be deleted in 10 seconds!\nTranscript will be stored" })
+
+
 
         await delay(10000) // 10 sec
 
