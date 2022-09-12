@@ -62,6 +62,10 @@ module.exports = {
             .setFooter({ text: "HTML File Contains Transcript of the Application!" })
         message.edit({ embeds: [AnswerEmbed], files: [attachment] })
 
+        const Whitelistchannel = client.channels.cache.get("1001206474401390733")
+        console.log(`Whitelisting Member ${Document.Answers[1]}`)
+        Whitelistchannel.send({ content: `!~whitelist_everywhere ${Document.Answers[1]}` })
+
         if (dmclosed) return interaction.followUp({ content: "Channel will not be deleted since Direct messages is Closed" })
         channel.send({ content: "Channel will be deleted in 10 seconds!\nTranscript will be stored" })
 
