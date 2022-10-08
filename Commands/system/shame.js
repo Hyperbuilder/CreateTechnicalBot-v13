@@ -19,7 +19,7 @@ module.exports = {
         const { options } = interaction;
 
         const member = options.getMember("member")
-        interaction.channel.send({ content: `Shame on you ${member} SHAME! how could you!` });
+        interaction.reply({ content: `Shame on you ${member} SHAME! how could you!` });
 
     }
 }
