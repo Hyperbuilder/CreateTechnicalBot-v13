@@ -17,8 +17,11 @@ module.exports = {
      */
     execute(interaction) {
         const { options } = interaction;
-
         const member = options.getMember("member")
+
+        if (["940164024329445419", "915376519881293885"].includes(member.id)) { interaction.reply(`Shame on you ${interaction.member} Why would you! Dont ping Everyone!`) }
+
+
         interaction.reply({ content: `Shame on you ${member} SHAME! how could you!` });
 
     }
