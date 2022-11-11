@@ -122,7 +122,7 @@ module.exports = {
                         }
                         case "queue": {
                             await queue.setRepeatMode(2);
-                            return interaction.reply({ content: "The queue will now be repeated infefinetly" })
+                            return interaction.reply({ content: "The queue will now be repeated infdefinetly" })
                         }
                     }
                 }
