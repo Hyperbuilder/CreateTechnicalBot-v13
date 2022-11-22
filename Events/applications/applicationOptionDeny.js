@@ -54,7 +54,7 @@ module.exports = {
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
         const InitialEmbed = message.embeds[0]
         const AnswerEmbed = new EmbedBuilder(InitialEmbed)
-            .setColor("RED")
+            .setColor("Red")
             .setTitle("APPLICATION DENIED")
         message.edit({ embeds: [AnswerEmbed] })
         interaction.reply({ content: "Select reason", ephemeral: true })
