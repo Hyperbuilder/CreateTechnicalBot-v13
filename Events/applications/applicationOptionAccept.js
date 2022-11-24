@@ -30,14 +30,14 @@ module.exports = {
 
         const DMembed = new EmbedBuilder()
             .setTitle("Create Technical Application")
-            .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nGet your whitelist in <#1003331777064083557>`)
+            .setDescription(`Congratulations! Your application to join Create Technical has been accepted!\nYou have been whitelisted automatically, if you filled in your username incorrectly or filled in multiple username check out <#1003331777064083557> to manually request a whitelist.`)
             .setFooter({ text: "A Transcription of the Application Channel can be requested. Ask Hyperbuilder" })
 
 
         let dmclosed = false;
         userDM.send({ embeds: [DMembed] }).catch(() => {
             dmclosed = true;
-            interaction.reply({ content: "User has Direct Messages Closed for Create Technical!" })
+            interaction.followup({ content: "User has Direct Messages Closed for Create Technical!" })
         })
 
         interaction.reply({ content: "Application accepted" })
@@ -66,7 +66,7 @@ module.exports = {
         console.log(`Whitelisting Member ${Document.Answers[1]}`)
         Whitelistchannel.send({ content: `!~whitelist_everywhere ${Document.Answers[1]}` })
 
-        if (dmclosed) return interaction.followUp({ content: "Channel will not be deleted since Direct messages is Closed" })
+        if (dmclosed) return channel.send({ content: "Channel will not be deleted since Direct messages is Closed" })
         channel.send({ content: "Channel will be deleted in 10 seconds!\nTranscript will be stored" })
 
 

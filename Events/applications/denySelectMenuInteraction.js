@@ -29,7 +29,7 @@ module.exports = {
 
         const value = interaction.values
 
-        DMembed.setFooter({ text: "The channel has been deleted. You can view a transcript of the channel by downloading the HTML file and opening it in your browser." })
+        DMembed.setFooter({ text: "The channel has been deleted. You can request a transcript of the channel." })
 
 
         if (value[0] === "info") {
