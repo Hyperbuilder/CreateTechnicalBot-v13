@@ -32,7 +32,7 @@ module.exports = {
         function useRegex(input) {
             let regex = /https:\/\/www\.curseforge\.com\/minecraft\/mc-mods\/[a-zA-Z]+/i;
             if (!regex.test(input)) {
-                let mregex = /https:\/\/www\.modrinth\.com\/mod\/[a-zA-Z]+/i
+                let mregex = /https:\/\/modrinth\.com\/mod\/[a-zA-Z]+/i
                 return mregex.test(input)
             } else return true
         }
