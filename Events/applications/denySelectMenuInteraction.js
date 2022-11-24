@@ -27,7 +27,7 @@ module.exports = {
         if (!Document) return console.error("No document found!");
         const DMembed = new EmbedBuilder()
 
-        const user = client.users.fetch(Document.UserID)
+        const user = await client.users.fetch(Document.UserID)
         const value = interaction.values
 
         console.log(user)
