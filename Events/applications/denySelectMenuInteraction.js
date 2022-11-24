@@ -61,7 +61,7 @@ module.exports = {
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
         const InitialEmbed = message.embeds[0]
-        const AnswerEmbed = new EmbedBuilder.from(InitialEmbed)
+        const AnswerEmbed = EmbedBuilder.from(InitialEmbed)
             .setColor("Red")
             .setTitle("Application Denied")
         message.edit({ embeds: [AnswerEmbed], files: [attachment] })
