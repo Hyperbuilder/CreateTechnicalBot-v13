@@ -20,12 +20,14 @@ module.exports = {
         if (interaction.customId !== "deniedSelectMenu");
         if (!["410953870643298314", "432217612345278476"].includes(interaction.user.id)) return interaction.reply({ content: "Permissions missing", ephemeral: true })
 
-        const { user, channel } = interaction
+        const { channel } = interaction
+
 
         const Document = await ApplicationCache.get(channel.id)
         if (!Document) return console.error("No document found!");
         const DMembed = new EmbedBuilder()
 
+        const user = Document.UserID
         const value = interaction.values
 
         DMembed.setFooter({ text: "The channel has been deleted. You can request a transcript of the channel." })
