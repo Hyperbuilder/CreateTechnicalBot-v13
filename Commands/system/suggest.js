@@ -8,7 +8,7 @@ module.exports = {
         .addStringOption((option) =>
             option
                 .setName("modlink")
-                .setDescription("Curseforge HTTPS link to modpage")
+                .setDescription("Curseforge or Modrinth HTTPS link to modpage")
                 .setRequired(true)
         )
         .addStringOption((option) =>
@@ -31,11 +31,14 @@ module.exports = {
 
         function useRegex(input) {
             let regex = /https:\/\/www\.curseforge\.com\/minecraft\/mc-mods\/[a-zA-Z]+/i;
-            return regex.test(input);
+            if (!regex.test(input)) {
+                let mregex = /https:\/\/www\.modrinth\.com\/mod\/[a-zA-Z]+/i
+                return mregex.test(input)
+            } else return true
         }
 
         if (!useRegex(modlink)) {
-            Response.setDescription(`${modlink} is an incorrect CurseForge link\nMake sure you are inputting a CurseForgeLink\nExample: https://www.curseforge.com/minecraft/mc-mods/create`)
+            Response.setDescription(`${modlink} is an incorrect link\nMake sure you are inputting a CurseForge or Modrinth Link\nExample: https://www.curseforge.com/minecraft/mc-mods/create`)
             interaction.reply({ embeds: [Response], ephemeral: true })
         } else {
             Response.setDescription(`${interaction.member} has suggested a mod!`)
