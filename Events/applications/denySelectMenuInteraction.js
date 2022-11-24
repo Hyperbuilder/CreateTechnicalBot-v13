@@ -27,7 +27,7 @@ module.exports = {
         if (!Document) return console.error("No document found!");
         const DMembed = new EmbedBuilder()
 
-        const user = Document.UserID
+        const user = client.users.fetch(Document.UserID)
         const value = interaction.values
 
         DMembed.setFooter({ text: "The channel has been deleted. You can request a transcript of the channel." })
