@@ -48,19 +48,23 @@ module.exports = {
         console.log(`Application by ${user.username} was denied, reason: ${value}`)
         await delay(1000)
         const attachment = await Transcripts.createTranscript(interaction.channel);
-        user.send({ embeds: [DMembed] }).catch(() => {
+
+        user.createDM().catch(() => {
             dmclosed = true
-            interaction.reply({ content: "User has Direct Messages Closed for Create Technical!" })
+            channel.send({ content: "User has Direct Messages Closed for Create Technical!" })
         })
+        if (!dmclosed) {
+            user.send({ embeds: [DMembed] })
+        }
 
         const result = await submitDB.find({ ChannelID: channel.id })
 
         const StaffChannel = client.channels.cache.get('797422520655413276');
         const message = await StaffChannel.messages.fetch(`${result[0].MessageID}`)
         const InitialEmbed = message.embeds[0]
-        const AnswerEmbed = new EmbedBuilder(InitialEmbed)
-            .setColor("#FF0000")
-            .setTitle("APPLICATION DENIED")
+        const AnswerEmbed = new EmbedBuilder.from(InitialEmbed)
+            .setColor("Red")
+            .setTitle("Application Denied")
         message.edit({ embeds: [AnswerEmbed], files: [attachment] })
 
         await delay(10000) // 10 sec
@@ -68,7 +72,7 @@ module.exports = {
         ApplicationCache.del(channel.id);
         await applicationDB.findOneAndDelete({ ChannelID: channel.id })
 
-        if (dmclosed) return interaction.followUp({ content: "Channel will not be deleted since Direct messages is Closed" })
+        if (dmclosed) return channel.send({ content: "Channel will not be deleted since Direct messages is Closed" })
         channel.delete()
 
 
