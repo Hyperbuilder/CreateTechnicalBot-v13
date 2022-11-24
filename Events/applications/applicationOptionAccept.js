@@ -45,7 +45,7 @@ module.exports = {
         if (!guild) return console.log("No Guild Found")
         const role = await guild.roles.cache.find(role => role.id === "733785266745245737");
         if (!role) return console.log("No Role Found")
-        const member = await guild.members.fetch(user)
+        const member = await guild.members.fetch(userDM)
         member.roles.add(role).catch((err) => console.error(err))
 
         await applicationDB.updateOne({ ChannelID: channel.id }, {
