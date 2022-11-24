@@ -23,8 +23,8 @@ module.exports = {
         const { user, channel } = interaction
 
         const Document = await ApplicationCache.get(channel.id)
-        if (!Document) return;
-        if (user.id !== Document.UserID) return;
+        if (!Document) return console.error("No document found!");
+        if (user.id !== Document.UserID) return console.log("IDs not matching");
         const DMembed = new EmbedBuilder()
 
         const value = interaction.values
