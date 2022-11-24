@@ -51,7 +51,7 @@ module.exports = {
         await delay(1000)
         const attachment = await Transcripts.createTranscript(interaction.channel);
 
-        user.createDM().catch(() => {
+        await user.createDM().catch(() => {
             dmclosed = true
             channel.send({ content: "User has Direct Messages Closed for Create Technical!" })
         })
