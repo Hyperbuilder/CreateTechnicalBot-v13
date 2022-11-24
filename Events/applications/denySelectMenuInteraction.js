@@ -30,8 +30,7 @@ module.exports = {
         const user = client.users.fetch(Document.UserID)
         const value = interaction.values
 
-        DMembed.setFooter({ text: "The channel has been deleted. You can request a transcript of the channel." })
-
+        console.log(user)
 
         if (value[0] === "info") {
             DMembed.setDescription(`**Hey ${user.username},**\n\nThank you for your application to join Create Technical! We appreciate your interest in our community and your time in filling out the application. Unfortunately, we must decline your application at this current time.\n\nWe’re looking for members who fit our community well. To be able to determine whether this is the case, we ask that your application is clear, concise, and well-written. The reason you are seeing this message is because that was not the case. We ask that you reapply in a while with more information, or if this is your second or third time trying, endeavour to find another community that might better suit you.\n\nFeel free to check out our current public server offerings to see if they are of interest, and we hope that you stick around to see what the technical community will get up to in the future! We wish you the best of luck in your journey with the Create mod.\n\nSincerely,\nThe Create Technical Team`)
@@ -43,6 +42,8 @@ module.exports = {
             DMembed.setDescription(`**Hey ${user.username},**\n\nThank you for your application to join Create Technical! We appreciate your interest in our community and your time in filling out the application. Unfortunately, we must decline your application at this current time.\n\nWe're looking for members with a little more experience with create as this is more a place for experienced players rather than someone just starting out. We would love to have you apply again down the road when you have spent more time playing with Create!\n\nFeel free to check out our current public server offerings to see if they are of interest, and we hope that you stick around to see what the technical community will get up to in the future! We wish you the best of luck in your journey with the Create mod.\n\nSincerely,\nThe Create Technical Team`)
             interaction.reply({ content: `Thank you for your application to join Create Technical! We appreciate your interest in our community and your time in filling out the application. Unfortunately, we must decline your application at this current time.\n\nWe're looking for members with a little more experience with create as this is more a place for experienced players rather than someone just starting out. We would love to have you apply again down the road when you have spent more time playing with Create!\n\nFeel free to check out our current public server offerings to see if they are of interest, and we hope that you stick around to see what the technical community will get up to in the future! We wish you the best of luck in your journey with the Create mod.\n\nSincerely,\nThe Create Technical Team\n\nThis Channel has been closed and is Transcripted to a HTML File.` })
         } else return
+
+        DMembed.setFooter({ text: "The channel has been deleted. You can request a transcript of the channel." })
 
         let dmclosed = false;
 
