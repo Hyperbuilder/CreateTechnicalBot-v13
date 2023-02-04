@@ -23,7 +23,7 @@ module.exports = {
                 new SelectMenuBuilder()
                     .setCustomId('deniedSelectMenu')
                     .setPlaceholder('Nothing selected')
-                    .addOptions([
+                    .addOptions(
                         {
                             label: 'Lack of Info / Behaviour',
                             description: 'Reason: We’re looking for members who fit our community well.',
@@ -40,7 +40,7 @@ module.exports = {
                             value: 'lack_experience',
                         },
 
-                    ]),
+                    ),
             ]);
 
         const userEmbedMessage = await (await interaction.channel.messages.fetch()).first()
