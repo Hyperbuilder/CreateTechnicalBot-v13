@@ -45,7 +45,7 @@ module.exports = {
 
         const userEmbedMessage = await (await interaction.channel.messages.fetch()).first()
         const initialUserEmbed = userEmbedMessage.embeds[0];
-        const newUserEmbed = EmbedBuilder.from(initialUserEmbed);
+        const newUserEmbed = await EmbedBuilder.from(initialUserEmbed).setTimestamp();
         userEmbedMessage.edit({ embeds: [newUserEmbed], components: [selectMenuRow] });
 
         const result = await submitDB.find({ ChannelID: channel.id })
@@ -56,6 +56,7 @@ module.exports = {
         const AnswerEmbed = EmbedBuilder.from(InitialEmbed)
             .setColor("Red")
             .setTitle("APPLICATION DENIED")
+        console.log("editmessage")
         message.edit({ embeds: [AnswerEmbed] })
         interaction.reply({ content: "Select reason", ephemeral: true })
     }
