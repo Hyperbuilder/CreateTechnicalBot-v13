@@ -16,7 +16,7 @@ module.exports = {
      * @param {Client} client
      */
     async execute(interaction, client) {
-        if (!interaction.isSelectMenu()) return;
+        if (!interaction.isStringSelectMenu()) return;
         if (interaction.customId !== "deniedSelectMenu");
         if (!["410953870643298314", "432217612345278476"].includes(interaction.user.id)) return interaction.reply({ content: "Permissions missing", ephemeral: true })
 

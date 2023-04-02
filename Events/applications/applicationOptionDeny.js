@@ -1,7 +1,5 @@
-const { ButtonInteraction, EmbedBuilder, ActionRowBuilder, SelectMenuBuilder, Client } = require("discord.js");
-const ApplicationCache = require("memory-cache")
+const { ButtonInteraction, EmbedBuilder, ActionRowBuilder, StringSelectMenuBuilder, Client } = require("discord.js");
 const submitDB = require("../../Structures/Schemas/submit-schema");
-const applicationOptionAccept = require("./applicationOptionAccept");
 
 module.exports = {
     name: "interactionCreate",
@@ -20,7 +18,7 @@ module.exports = {
 
         const selectMenuRow = new ActionRowBuilder()
             .addComponents([
-                new SelectMenuBuilder()
+                new StringSelectMenuBuilder()
                     .setCustomId('deniedSelectMenu')
                     .setPlaceholder('Nothing selected')
                     .addOptions(
@@ -30,7 +28,7 @@ module.exports = {
                             value: 'info',
                         },
                         {
-                            label: 'Underage, ToS',
+                            label: 'ToS / Age',
                             description: 'Reason: User is Underage (Under 13), and therefor breaking Terms of Service.',
                             value: 'underage',
                         },

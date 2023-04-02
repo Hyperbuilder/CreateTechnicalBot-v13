@@ -93,7 +93,7 @@ module.exports = {
                 ChannelID: channel.id,
                 Answers: Answers,
                 QuestionNumber: QuestionNumber,
-                TotalQuestions: applicationQuestions.length,
+                TotalQuestions: 1 /*applicationQuestions.length*/,
                 Member: false,
                 Submit: false
             }).save()
@@ -103,7 +103,7 @@ module.exports = {
                 ChannelID: channel.id,
                 Answers: Answers,
                 QuestionNumber: QuestionNumber,
-                TotalQuestions: applicationQuestions.length,
+                TotalQuestions: 1 /* applicationQuestions.length*/,
                 Member: false,
                 Submit: false
             })
